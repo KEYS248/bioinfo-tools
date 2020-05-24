@@ -26,14 +26,15 @@ if (is.null(opt$project) || is.null(opt$controls) || is.null(opt$experimentals))
   stop("You must specify --project, --controls, and --experimentals. Use -h or --help to get the help message.")
 }
 
-library(tidyverse) # Used for general purpose data manipulation
-library(SCOPE)
-library(WGSmapp) # Required for SCOPE
-library(BSgenome.Hsapiens.UCSC.hg38) # Required for SCOPE
-library(reshape2) # Used to reformatting data for CNV plot
-library(ggdendro) # Used for plotting cluster tree plot
-library(gridExtra) # Used for combinding tree and CNV plots for export
-
+suppressPackageStartupMessages({
+  library(tidyverse) # Used for general purpose data manipulation
+  library(SCOPE)
+  library(WGSmapp) # Required for SCOPE
+  library(BSgenome.Hsapiens.UCSC.hg38) # Required for SCOPE
+  library(reshape2) # Used to reformatting data for CNV plot
+  library(ggdendro) # Used for plotting cluster tree plot
+  library(gridExtra) # Used for combinding tree and CNV plots for export
+})
 
 # Variables used in plotting the CNV results
 ggplot_theme <- theme(axis.line.y = element_line(size=.1,color = "black"), axis.line.x = element_line(size=.1,color = "black"),
