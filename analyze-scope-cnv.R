@@ -52,7 +52,7 @@ chr_middles <- c(124478211, 370053186, 590297730, 784552787, 970429194, 11466013
 
 
 # Functions ------------------------------------------------------
-# Modified SCOPE get_bam_bed() function to keep chrX and chrY, while the default SCOPE function does not
+# Modified SCOPE get_bam_bed() function to keep chrX, while the default SCOPE function does not
 get_bam_bed_n24chr <- function(bamdir, sampname, hgref = "hg19", resolution = 500) {
   if(!hgref %in% c("hg19", "hg38")){
     stop("Reference genome should be either hg19 or hg38. ")
