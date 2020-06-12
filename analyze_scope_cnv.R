@@ -19,8 +19,7 @@ option_list = list(
               help="trim this suffix from experimental sample names in the plots [default = %default]", metavar="character")
 ); 
  
-opt_parser = OptionParser(option_list=option_list);
-opt = parse_args(opt_parser);
+opt <- parse_args(OptionParser(option_list=option_list))
 
 if (is.null(opt$project) || is.null(opt$controls) || is.null(opt$experimentals)){
   stop("You must specify --project, --controls, and --experimentals. Use -h or --help to get the help message.")
