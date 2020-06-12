@@ -12,7 +12,7 @@ option_list = list(
               help="output the newly generated or newly combined blacklist as a TSV, otherwise not outputted", metavar="character"),
   make_option(c("-c", "--combine_blacklists"), action="store_true", default=FALSE,
               help="generate new blacklist and combine with previous blacklist provided (must have same column fields) [default = %default]"),
-  make_option(c("-f", "--vaf_max"), type="integer", default=0.1,
+  make_option(c("-f", "--vaf_max"), type="double", default=0.1,
               help="variants less frequent than this fraction will not be considered for addition to the new blacklist [default = %default]"),
   make_option(c("-d", "--dp_min"), type="integer", default=5, metavar="number",
               help="variants with depth less than this will not be considered for addition to the new blacklist [default = %default]"),
@@ -21,8 +21,6 @@ option_list = list(
 );
 
 opt <- parse_args(OptionParser(option_list=option_list, description="Generates a blacklist of variants then removes those variants"))
-
-# opt <- list("vaf_max" = 0.1, "dp_min" = 10, "mq_min" = 30)
 
 if (is.null(opt$input_tsv) || is.null(opt$output_tsv)) {
   stop("You must specify --input_tsv and --output_tsv. Use -h or --help to get the help message.")
