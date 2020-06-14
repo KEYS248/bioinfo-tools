@@ -12,11 +12,11 @@ option_list = list(
               help="output the newly generated or newly combined blacklist as a TSV, otherwise not outputted", metavar="character"),
   make_option(c("-c", "--combine_blacklists"), action="store_true", default=FALSE,
               help="generate new blacklist and combine with previous blacklist provided (must have same column fields) [default = %default]"),
-  make_option(c("-f", "--vaf_max"), type="double", default=0.1,
+  make_option(c("-v", "--vaf"), type="double", default=0.1,
               help="variants less frequent than this fraction will not be considered for addition to the new blacklist [default = %default]"),
-  make_option(c("-d", "--dp_min"), type="integer", default=5, metavar="number",
+  make_option(c("-d", "--dp"), type="integer", default=5, metavar="number",
               help="variants with depth less than this will not be considered for addition to the new blacklist [default = %default]"),
-  make_option(c("-m", "--mq_min"), type="integer", default=30, metavar="number",
+  make_option(c("-m", "--mq"), type="integer", default=30, metavar="number",
               help="variants with mapping quality less than this will not be considered for addition to the new blacklist [default = %default]")
 );
 
@@ -32,6 +32,9 @@ suppressPackageStartupMessages({
 
 main <- function() {
   blacklist_columns <- c("CHROM", "POS", "REF", "ALT", "MQ", "DP", "cohort_VAF")
+  cat("Variant frequency minimum for blacklist:", opt$vaf, "\n")
+  cat("Depth minimum for blacklist:", opt$vaf, "\n")
+  cat("Mapping quality minimum for blacklist:", opt$vaf, "\n")
   if (!is.null(opt$input_blacklist) & !opt$combine_blacklists) {
     cat("Input blacklist provided. The program will use the provided blacklist for filtering and not generate a new blacklist\n")
     provided_blacklist_df <- read_tsv(opt$input_blacklist)
@@ -67,9 +70,9 @@ generate_blacklist <- function(columns_to_keep) {
     group_by(CHROM, POS, REF, ALT) %>%
       mutate(cohort_VAF = n()/total_samples) %>%
     ungroup() %>%
-    filter(cohort_VAF >= opt$vaf_max & DP_1 >= opt$dp_min & MQ >= opt$mq_min) %>%
-    distinct(CHROM, POS, REF, ALT, .keep_all = TRUE) %>%
-    select(all_of(columns_to_keep))
+    filter(cohort_VAF >= opt$vaf & DP_1 >= opt$dp & MQ >= opt$mq) %>%
+    distinct(CHROM, POS, REF, ALT, .keep_all = TRUE)
+  new_blacklist_df <- new_blacklist_df[,columns_to_keep]
   return(new_blacklist_df)
 }
 
